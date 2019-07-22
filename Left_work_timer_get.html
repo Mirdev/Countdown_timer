@@ -1,12 +1,15 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
  <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Work time countdown timer</title>
   <style>
    #graph{
      border: 1px solid blue;
      height: 20px;
-     width: 180px;
+     width: 225px;
      text-align: left;
    }
   </style>
@@ -15,6 +18,8 @@
    var setimes = location.href.split('?')[1].split('&');
    var start_time = setimes[0]*1;
    var end_time = setimes[1]*1;
+   let shour = Math.floor(start_time), smin = Math.round((start_time-Math.floor(start_time))*60);
+   let ehour = Math.floor(end_time), emin = Math.round((end_time-Math.floor(end_time))*60);
    function start(){
     timer();
     setInterval('display_timer()', 1);
@@ -51,9 +56,9 @@
     if(lsec<10) tsec="0"+lsec;
     else tsec=lsec;
     time_ratio = left_time/work_time*100;
-    times.innerHTML="Left time of work<br>"+thour+":"+tmin+":"+tsec+" ("+Math.round(left_time*60*60)+" s)";
+    times.innerHTML="Left time of work [ "+shour+":"+smin+" ~ "+ehour+":"+emin+" ]<br>"+thour+":"+tmin+":"+tsec+" ("+Math.round(left_time*60*60)+" s)";
     graph.innerHTML="<div style='background: blue; height: 20px; width: "+time_ratio+"%;'></div>";
-     percent.innerHTML=time_ratio.toFixed(6)+" %"
+    percent.innerHTML=time_ratio.toFixed(6)+" %"
    }
   </script>
  </head>
