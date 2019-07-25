@@ -34,7 +34,7 @@
     total_sec = lhour*60*60+lmin*60+lsec;
     sec_ratio = total_sec/86400*100;
     
-    times.innerHTML="Left time of "+(now.getMonth()+1)+"/"+now.getDate()+" [h:m:s]<br>"+thour+":"+tmin+":"+tsec+" ("+total_sec+" s)";
+    times.innerHTML="Left time of "+(now.getMonth()+1)+"/"+now.getDate()+"<br>"+thour+":"+tmin+":"+tsec+" ("+total_sec+" s)";
     graph.innerHTML="<div style='background: blue; height: 20px; width: "+sec_ratio+"%;'></div>";
     percent.innerHTML=sec_ratio.toFixed(6)+" %"
    }
