@@ -46,7 +46,7 @@
      left_time = work_time;
     lhour = Math.floor(left_time);
     lmin  = Math.floor((left_time-lhour)*60);
-    lsec  = Math.round(((left_time-lhour)*60-lmin)*60);
+    lsec  = Math.round(((left_time-lhour)*60-lmin)*60)-1;
    }
    function display_timer(){
     if(lhour<10) thour="0"+lhour;
