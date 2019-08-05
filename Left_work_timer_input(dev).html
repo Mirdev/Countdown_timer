@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Work time countdown timer</title>
     <style>
+      #set {
+        vertical-align: bottom;
+      }
       input[type=number]{
         width: 35px;
       }
@@ -17,46 +20,77 @@
       }
     </style>
     <script>
+      var shour, smin, ssec, ehour, emin, esec, lhour, lmin, lsec;
+      var work_time, start_time, end_time, left_sec;
       function checkTime(){
-        let shour = document.getElementById("shour").value;
-        let smin = document.getElementById("smin").value;
-        let ssec = document.getElementById("ssec").value;
-        let ehour = document.getElementById("ehour").value;
-        let emin = document.getElementById("emin").value;
-        let esec = document.getElementById("esec").value;
-        if(shour<0 || shour>23 || ehour<0 || ehour>23){
-          alert("An hour should be in range of 0-24");
-        }
-        else if(smin<0 || smin> 59 || emin<0 || emin> 59){
-          alert("A minute should be in range of 0-59");
-        }
-        else if(ssec<0 || ssec> 59 || esec<0 || esec> 59){
-          alert("A second should be in range of 0-59");
-        }
+        shour = document.getElementById("shour").value;
+        smin = document.getElementById("smin").value;
+        ssec = document.getElementById("ssec").value;
+        ehour = document.getElementById("ehour").value;
+        emin = document.getElementById("emin").value;
+        esec = document.getElementById("esec").value;
+        if(shour<0 || shour>23 || ehour<0 || ehour>23) alert("An hour should be in range of 0-24");
+        else if(smin<0 || smin> 59 || emin<0 || emin> 59) alert("A minute should be in range of 0-59");
+        else if(ssec<0 || ssec> 59 || esec<0 || esec> 59) alert("A second should be in range of 0-59");
         else{
-          document.getElementById("printdiv").innerHTML = `${('0'+shour).slice(-2)}:${('0'+smin).slice(-
-
-2)}:${('0'+ssec).slice(-2)}<br>`;
-          document.getElementById("printdiv").innerHTML += `${('0'+ehour).slice(-2)}:${('0'+emin).slice(-
-
-2)}:${('0'+esec).slice(-2)}<br>`;
+          active.innerHTML = "<span id=times></span><div id=graph></div><span id=percent></span>"
+          timer();
+          setInterval('display_timer()', 1);
+          setInterval('timer()', 1);
         }
+      }
+      function time_to_sec(h, m, s){
+        return h*3600+m*60+s*1;
+      }
+      function zpad(num){
+        return ('0'+num).slice(-2);
+      }
+      function timer(){
+        let now = new Date();
+        let now_time = time_to_sec(now.getHours(), now.getMinutes(), now.getSeconds());
+        let start_time = time_to_sec(shour, smin, ssec);
+        let end_time = time_to_sec(ehour, emin, esec);
+        work_time = end_time-start_time;
+        left_sec = work_time;
+        if(work_time < 0){
+          work_time += 24*60*60;
+          left_sec = work_time;
+          left_sec = now_time < end_time ? end_time-now_time : work_time-now_time+start_time;
+        }
+        else if(now_time >= start_time && now_time < end_time)
+          left_sec = work_time-now_time+start_time;
+        lhour = Math.floor(left_sec/60/60);
+        lmin  = Math.floor(left_sec/60-lhour*60);
+        lsec  = Math.floor((left_sec-lhour*60*60-lmin*60));
+      }
+      function display_timer(){
+        let time_ratio = left_sec/work_time*100;
+        times.innerHTML=`Left time of work [ ${zpad(shour)}:${zpad(smin)}:${zpad(ssec)} ~ ${zpad(ehour)}:${zpad(emin)}:${zpad(esec)} ]<br>
+        ${zpad(lhour)}:${zpad(lmin)}:${zpad(lsec)} (${left_sec} s)`;
+        graph.innerHTML=`<div style='background: blue; height: 20px; width: ${time_ratio}%;'></div>`;
+        percent.innerHTML=time_ratio.toFixed(6)+" %"
       }
     </script>
   </head>
-  <body onload="start()">
+  <body>
     <center>
-      Start: <input type="number" min=0 max=23 id="shour" value=0 size="2">:<input type="number" min=0 
-
-max=59 id="smin" value=0>:<input type="number" min=0 max=59 id="ssec" value=0><br>
-      End: <input type="number" min=0 max=23 id="ehour" value=0>:<input type="number" min=0 max=59 id="emin" 
-
-value=0>:<input type="number" min=0 max=59 id="esec" value=0><br>
-      <span id=times></span><br>
-      <div id=graph></div>
-      <span id=percent></span>
+      <table border=0>
+        <tr>
+          <td align=right>
+            Start: <input type="number" min=0 max=23 id="shour" value=0>:<input type="number" min=0 max=59 id="smin" value=0>:<input type="number" min=0 max=59 id="ssec" value=0>
+          </td>
+          <td id="set" rowspan="2">
+            <button onClick=checkTime()>Set</button>
+          </td>
+        </tr>
+        <tr>
+          <td align=right>
+            End: <input type="number" min=0 max=23 id="ehour" value=0>:<input type="number" min=0 max=59 id="emin" value=0>:<input type="number" min=0 max=59 id="esec" value=0>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <div id=active></div>
     </center>
   </body>
 </html>
-<button onClick=checkTime()>Set</button>
-<div id="printdiv"></div>
