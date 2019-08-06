@@ -29,7 +29,7 @@
         ehour = document.getElementById("ehour").value;
         emin = document.getElementById("emin").value;
         esec = document.getElementById("esec").value;
-        if(shour<0 || shour>23 || ehour<0 || ehour>23) alert("An hour should be in range of 0-24");
+        if(shour<0 || shour>24 || ehour<0 || ehour>24) alert("An hour should be in range of 0-24");
         else if(smin<0 || smin> 59 || emin<0 || emin> 59) alert("A minute should be in range of 0-59");
         else if(ssec<0 || ssec> 59 || esec<0 || esec> 59) alert("A second should be in range of 0-59");
         else{
