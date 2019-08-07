@@ -29,7 +29,7 @@
         ehour = document.getElementById("ehour").value;
         emin = document.getElementById("emin").value;
         esec = document.getElementById("esec").value;
-        if(shour<0 || shour>23 || ehour<0 || ehour>24) alert("An hour should be in range of 0-23(end hour can 0-24)");
+        if(shour<0 || shour>23 || ehour<0 || ehour>23) alert("An hour should be in range of 0-23");
         else if(smin<0 || smin> 59 || emin<0 || emin> 59) alert("A minute should be in range of 0-59");
         else if(ssec<0 || ssec> 59 || esec<0 || esec> 59) alert("A second should be in range of 0-59");
         else{
@@ -54,8 +54,12 @@
         left_sec = work_time;
         if(work_time < 0){
           work_time += 24*60*60;
-          left_sec = work_time;
-          left_sec = now_time < end_time ? end_time-now_time : work_time-now_time+start_time;
+          if(now_time < end_time)
+            left_sec = end_time-now_time;
+          else if(now_time >= start_time)
+            left_sec = work_time-now_time+start_time;
+          else
+            left_sec = work_time;
         }
         else if(now_time >= start_time && now_time < end_time)
           left_sec = work_time-now_time+start_time;
