@@ -11,7 +11,7 @@
    }
   </style>
   <script language="javascript">
-   var now, lhour, lmin, lsec, thour, tmin, tsec, total_sec, sec_ratio;
+   var now, lhour, lmin, lsec;
    function start(){
     timer();
     setInterval('display_timer()', 1);
@@ -24,16 +24,14 @@
     lsec  = 60-now.getSeconds();
    }
    function display_timer(){
-    if(lhour<10) thour="0"+lhour;
-    else thour=lhour;
-    if(lmin<10) tmin="0"+lmin;
-    else tmin=lmin;
-    if(lsec<10) tsec="0"+lsec;
-    else tsec=lsec;
-    
+    let thour, tmin, tsec, total_sec, sec_ratio;
+    thour = lhour<10 ? "0"+lhour : hour;
+    tmin = lmin<10 ? "0"+lmin : lmin;
+    tsec = lsec<10 ? "0"+lsec : lsec;
+
     total_sec = lhour*60*60+lmin*60+lsec;
     sec_ratio = total_sec/86400*100;
-    
+
     times.innerHTML="Left time of "+(now.getMonth()+1)+"/"+now.getDate()+"<br>"+thour+":"+tmin+":"+tsec+" ("+total_sec+" s)";
     graph.innerHTML="<div style='background: blue; height: 20px; width: "+sec_ratio+"%;'></div>";
     percent.innerHTML=sec_ratio.toFixed(6)+" %"
